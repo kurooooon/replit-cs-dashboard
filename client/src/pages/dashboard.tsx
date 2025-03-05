@@ -4,15 +4,19 @@ import { UserTable } from "@/components/user-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { User } from "@shared/schema";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 export default function Dashboard() {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { data: users = [], isLoading } = useQuery<User[]>({
-    queryKey: ["/api/users/search", searchQuery],
+  const { data: users = [], isLoading } = useQuery({
+    queryKey: ["/api/users/search", { q: searchQuery }],
     enabled: searchQuery.length > 0,
   });
+
+  const handleSearch = useCallback((query: string) => {
+    setSearchQuery(query);
+  }, []);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -24,7 +28,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent className="space-y-6">
             <SearchForm
-              onSearch={setSearchQuery}
+              onSearch={handleSearch}
               isLoading={isLoading}
             />
             <UserTable users={users} />

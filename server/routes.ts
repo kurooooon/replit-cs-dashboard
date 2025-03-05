@@ -11,7 +11,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return res.sendStatus(401);
     }
 
-    const query = req.query.q as string;
+    const query = typeof req.query.q === 'string' ? req.query.q : '';
     if (!query) {
       return res.json([]);
     }
