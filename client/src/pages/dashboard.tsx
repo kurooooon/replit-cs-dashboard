@@ -15,12 +15,12 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen overflow-hidden">
       <SidebarNav />
       <main className="flex-1 p-8 overflow-auto">
         <Card>
           <CardHeader>
-            <CardTitle>User Search</CardTitle>
+            <CardTitle>ユーザー検索</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <SearchForm

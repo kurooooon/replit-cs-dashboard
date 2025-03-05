@@ -9,15 +9,17 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigate } from "react-router-dom";
 import { Shield } from "lucide-react";
+import { useEffect } from "react";
 
 export default function AuthPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  if (user) {
-    navigate("/");
-    return null;
-  }
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   return (
     <div className="min-h-screen flex">
