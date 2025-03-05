@@ -3,14 +3,24 @@ import App from "./App";
 import "./index.css";
 
 async function startApp() {
-  if (process.env.NODE_ENV === 'development') {
-    const { worker } = await import('./mocks/browser');
-    await worker.start({
-      onUnhandledRequest: 'bypass',
-    });
-  }
+  try {
+    console.log('Starting application...');
 
-  createRoot(document.getElementById("root")!).render(<App />);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Initializing MSW...');
+      const { worker } = await import('./mocks/browser');
+      await worker.start({
+        onUnhandledRequest: 'bypass',
+      });
+      console.log('MSW initialized successfully');
+    }
+
+    console.log('Rendering React application...');
+    createRoot(document.getElementById("root")!).render(<App />);
+    console.log('Application started successfully');
+  } catch (error) {
+    console.error('Error starting application:', error);
+  }
 }
 
 startApp();
