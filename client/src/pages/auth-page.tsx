@@ -7,15 +7,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { insertUserSchema } from "@shared/schema";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useLocation } from "wouter";
+import { useNavigate } from "react-router-dom";
 import { Shield } from "lucide-react";
 
 export default function AuthPage() {
   const { user } = useAuth();
-  const [, setLocation] = useLocation();
+  const navigate = useNavigate();
 
   if (user) {
-    setLocation("/");
+    navigate("/");
     return null;
   }
 

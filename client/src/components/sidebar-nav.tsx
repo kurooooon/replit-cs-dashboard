@@ -3,7 +3,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
 import { Users, Search, Settings, LogOut } from "lucide-react";
-import { Link, useLocation } from "wouter";
+import { Link, useLocation } from "react-router-dom";
 
 const sidebarItems = [
   {
@@ -24,7 +24,7 @@ const sidebarItems = [
 ];
 
 export function SidebarNav() {
-  const [location] = useLocation();
+  const location = useLocation();
   const { logoutMutation, user } = useAuth();
 
   return (
@@ -38,9 +38,9 @@ export function SidebarNav() {
           <ScrollArea className="h-[calc(100vh-12rem)]">
             <div className="space-y-2">
               {sidebarItems.map((item) => (
-                <Link key={item.href} href={item.href}>
+                <Link key={item.href} to={item.href}>
                   <Button
-                    variant={location === item.href ? "secondary" : "ghost"}
+                    variant={location.pathname === item.href ? "secondary" : "ghost"}
                     className={cn("w-full justify-start gap-2")}
                   >
                     <item.icon className="h-4 w-4" />
