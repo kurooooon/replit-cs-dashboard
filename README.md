@@ -26,11 +26,6 @@ npm install
 npm run dev
 ```
 
-## デフォルトの管理者アカウント
-
-- ユーザー名: admin
-- パスワード: admin123
-
 ## ライセンス
 
 MIT
