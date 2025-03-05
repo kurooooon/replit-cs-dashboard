@@ -9,8 +9,14 @@ import { useState, useCallback } from "react";
 export default function Dashboard() {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { data: users = [], isLoading } = useQuery({
-    queryKey: ["/api/users/search", { q: searchQuery }],
+  const { data: users = [], isLoading } = useQuery<User[]>({
+    queryKey: ["/api/users/search", searchQuery],
+    queryFn: async () => {
+      if (!searchQuery) return [];
+      const res = await fetch(`/api/users/search?q=${encodeURIComponent(searchQuery)}`);
+      if (!res.ok) throw new Error('Failed to fetch users');
+      return res.json();
+    },
     enabled: searchQuery.length > 0,
   });
 

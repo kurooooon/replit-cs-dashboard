@@ -7,17 +7,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
   setupAuth(app);
 
   app.get("/api/users/search", async (req, res) => {
-    if (!req.isAuthenticated() || !req.user.isAdmin) {
-      return res.sendStatus(401);
-    }
+    try {
+      if (!req.isAuthenticated() || !req.user.isAdmin) {
+        return res.sendStatus(401);
+      }
 
-    const query = typeof req.query.q === 'string' ? req.query.q : '';
-    if (!query) {
-      return res.json([]);
-    }
+      const query = typeof req.query.q === 'string' ? req.query.q : '';
+      if (!query) {
+        return res.json([]);
+      }
 
-    const users = await storage.searchUsers(query);
-    res.json(users);
+      const users = await storage.searchUsers(query);
+      res.json(users);
+    } catch (error) {
+      console.error('Search error:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
   });
 
   const httpServer = createServer(app);

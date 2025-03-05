@@ -12,14 +12,18 @@ import { Shield } from "lucide-react";
 import { useEffect } from "react";
 
 export default function AuthPage() {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
-      navigate("/");
+    if (user && !isLoading) {
+      navigate("/", { replace: true });
     }
-  }, [user, navigate]);
+  }, [user, isLoading, navigate]);
+
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen flex">
@@ -29,7 +33,7 @@ export default function AuthPage() {
             <Shield className="w-12 h-12 mx-auto text-primary" />
             <h2 className="text-2xl font-semibold">Admin Dashboard</h2>
             <p className="text-sm text-muted-foreground">
-              Login or register to access the customer support dashboard
+              Login to access the customer support dashboard
             </p>
           </CardHeader>
           <CardContent>
